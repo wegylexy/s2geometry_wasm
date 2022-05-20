@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>S2CellId Conversions</title>
+</head>
+
+<body>
+    <script>
+        Promise.all([
+            new Promise(((resolve, reject) => {
+                var s = document.createElement("script");
+                s.src = "../bin/s2.js";
+                s.onload = () => {
+                    const i = InitS2;
+                    delete InitS2, resolve(i);
+                };
+                document.body.appendChild(s);
+            })),
+            fetch("../bin/s2.wasm").then(response => response.arrayBuffer())
+        ]).then(async ([InitS2, wasm]) => {
+            window.S2 = await InitS2({ wasm });
+        });
+    </script>
+    <fieldset>
+        <legend>S2CellId to [Latitude, Longitude]</legend>
+        <input oninput="idToLatLng.textContent=JSON.stringify(S2.IdToLatLng(BigInt(event.target.value)))" />
+        <div id="idToLatLng"></div>
+    </fieldset>
+    </script>
+    <fieldset>
+        <legend>[Latitude, Longitude] to S2CellId</legend>
+        [<input id="latitude"/>, <input id="longitude"/>]
+        <div id="latLngToId"></div>
+        <input type="button" value="Convert" onclick="latLngToId.textContent=S2.LatLngToId(parseFloat(latitude.value), parseFloat(longitude.value))"/>
+    </fieldset>
+    <fieldset>
+        <legend>S2CellId to Token</legend>
+        <input oninput="idToToken.textContent=S2.IdToToken(BigInt(event.target.value))" />
+        <div id="idToToken"></div>
+    </fieldset>
+    <fieldset>
+        <legend>Token to S2CellId</legend>
+        <input oninput="tokenToId.textContent=S2.TokenToId(event.target.value)" />
+        <div id="tokenToId"></div>
+    </fieldset>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: S2Geometry for WASM
+description: JavaScript binding to native S2Geometry
+show_downloads: true

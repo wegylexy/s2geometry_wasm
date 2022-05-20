@@ -1,0 +1,1 @@
+docker run --rm -v ${PWD}:/src -v emscripten-cache:/emsdk/upstream/emscripten/cache emscripten/emsdk sh build.sh
